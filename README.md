@@ -8,7 +8,7 @@
 <p>✅ Uploading pictures</p>
 <p>✅ Admin panel</p>
 <p>✅ Language switching (3 languages)</p>
-<p>✅ Product sorting a searching</p>
+<p>✅ Product sorting and searching</p>
 <p>✅ Sorting products by ratings</p>
 <p>✅ Certain product's gallery</p>
 <p>✅ Comments</p>
