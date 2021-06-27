@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/mainAdmin.html">
+<div layout:fragment = "site_content">
+
+<div class="row">
+    <h2 th:text="#{users}"></h2>
+    <button type="button" class="btn btn-info ml-auto my-auto" data-toggle="modal" data-target="#exampleModal" th:text="#{addUser}"></button>
+</div>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col" class="my-auto">#</th>
+            <th scope="col" class="my-auto">Email:</th>
+            <th scope="col" th:text="#{fullname}"></th>
+            <th scope="col" class="my-auto w-50" th:text="#{roles}"></th>
+            <th scope="col" class="my-auto" th:text="#{details}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="u : ${users}">
+            <th scope="row" th:text="${u.id}"></th>
+            <td th:text="${u.email}"></td>
+            <td th:text="${u.name}"></td>
+            <td class="w-50" th:text="${u.roles}"></td>
+            <td><a th:href="@{'/detailsUser/' + ${u.id}}"><button class="btn btn-secondary btn-sm w-75">i</button></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{'/addUser'}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{addUser}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p th:text="#{fullname}"></p>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <p>Email: </p>
+                        <input type="text" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{password}"></p>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{repassword}"></p>
+                        <input type="password" class="form-control" name="repassword">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="moderator">
+                            </div>
+                        </div>
+                        <p class="my-auto ml-2" th:text="#{moderator}"></p>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="admin">
+                            </div>
+                        </div>
+                        <p class="my-auto ml-2" th:text="#{admin}"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{close}"></button>
+                    <button class="btn btn-info" th:text="#{add}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+</html>

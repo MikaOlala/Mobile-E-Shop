@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/mainAdmin.html">
+<div layout:fragment = "site_content">
+
+
+    <form th:action="@{'/editCountry'}" method="post" >
+        <h5 th:text="#{editCountry}"></h5>
+        <input type="hidden" class="form-control" name="id" th:value="${country.id}">
+        <div class="form-group">
+            <p th:text="#{name}"></p>
+            <input type="text" class="form-control" th:value="${country.name}" name="name">
+        </div>
+        <div class="form-group">
+            <p th:text="#{description}"></p>
+            <input type="text" class="form-control" th:value="${country.code}" name="code">
+        </div>
+
+        <div class="row">
+            <button class="btn btn-danger mr-auto" name="act" value="delete" th:text="#{delete}"></button>
+            <button class="btn btn-info ml-auto" name="act" value="edit" th:text="#{editCountry}"></button>
+        </div>
+    </form>
+
+</div>
+</html>

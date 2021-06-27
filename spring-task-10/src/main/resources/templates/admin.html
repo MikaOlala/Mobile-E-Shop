@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/mainAdmin.html">
+<div layout:fragment = "site_content">
+
+<div class="row">
+    <h2 th:text="#{items}"></h2>
+    <button type="button" class="btn btn-info ml-auto my-auto" data-toggle="modal" data-target="#exampleModal" th:text="#{addItem}"></button>
+</div>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" th:text="#{name}"></th>
+            <th scope="col" th:text="#{brand}"></th>
+            <th scope="col" th:text="#{price}"></th>
+            <th scope="col" th:text="#{details}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="t : ${items}">
+            <th scope="row" th:text="${t.id}"></th>
+            <td th:text="${t.name}"></td>
+            <td th:text="${t.brand.name + ', ' + t.brand.country.name}"></td>
+            <td th:text="${t.price + '$'}"></td>
+            <td><a th:href="@{'/detailsAdmin/' + ${t.id}}"><button class="btn btn-secondary btn-sm w-75">i</button></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{'/addItem'}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{addItem}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p th:text="#{name}"></p>
+                        <input type="text" class="form-control" placeholder="Enter Name..." name="name">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{description}"></p>
+                        <textarea class="form-control" placeholder="Enter Description..." name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{price}"></p>
+                        <input type="text" class="form-control" name="price">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{stars}"></p>
+                        <input type="text" class="form-control" name="stars">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{picture}"></p>
+                        <input type="text" class="form-control" name="picture">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{pictureL}"></p>
+                        <input type="text" class="form-control" name="pictureL">
+                    </div>
+                    <div class="form-group d-flex">
+                        <p class="mr-4" th:text="#{top}"></p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="top" id="exampleRadios1" value="true">
+                            <label class="form-check-label mr-2" for="exampleRadios1" th:text="#{yes}"></label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="top" id="exampleRadios2" value="false">
+                            <label class="form-check-label" for="exampleRadios2" th:text="#{no}"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{brand}"></p>
+                        <select class="form-control" name="brandId">
+                            <option th:each="b : ${brands}" th:text="${b.name}" th:value="${b.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{close}"></button>
+                    <button class="btn btn-info" th:text="#{add}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+</html>

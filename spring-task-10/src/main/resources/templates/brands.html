@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/mainAdmin.html">
+<div layout:fragment = "site_content">
+
+<div class="row">
+    <h2 th:text="#{brands}"></h2>
+    <button type="button" class="btn btn-info ml-auto my-auto" data-toggle="modal" data-target="#exampleModal" th:text="#{addBrand}"></button>
+</div>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" th:text="#{name}"></th>
+            <th scope="col" th:text="#{country}"></th>
+            <th scope="col" th:text="#{details}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="b : ${brands}">
+            <th scope="row" th:text="${b.id}"></th>
+            <td th:text="${b.name}"></td>
+            <td th:text="${b.country.name}"></td>
+            <td><a th:href="@{'/detailsBrand/' + ${b.id}}"><button class="btn btn-secondary btn-sm w-50">i</button></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{'/addBrand'}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{addBrand}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <p th:text="#{name}"></p>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{country}"></p>
+                        <select class="form-control" name="country">
+                            <option th:each="c : ${countries}" th:text="${c.name}" th:value="${c.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{close}"></button>
+                    <button class="btn btn-info" th:text="#{add}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+</html>

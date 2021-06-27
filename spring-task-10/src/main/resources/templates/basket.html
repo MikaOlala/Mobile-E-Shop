@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/main.html">
+<div layout:fragment = "site_content">
+
+    <form th:action="@{'/detailed'}" method="get" class="form-inline mb-4">
+        <input class="form-control mr-sm-2 w-75" type="search" name="name" th:placeholder="#{search}" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" th:text="#{search}"></button>
+    </form>
+
+    <h2 th:text="#{basket}"></h2>
+
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col" th:text="#{products}"></th>
+            <th scope="col" th:text="#{price}"></th>
+            <th scope="col" th:text="#{amount}"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="b : ${basket}">
+            <td th:text="${b.name}"></td>
+            <td th:text="${b.price + '$'}"></td>
+            <td th:text="${b.amount}"></td>
+            <td width="10%">
+                <form th:action="@{'/plusMinusBasket'}" method="post">
+                    <input type="hidden" name="name" th:value="${b.name}">
+                    <button class="btn btn-success btn-sm mr-1 my-auto" name="act" value="plus" style="top: 50%;">+</button>
+                    <button class="btn btn-danger btn-sm my-auto" name="act" value="minus" style="top: 50%;">-</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div>
+        <form th:action="@{'/clearPay'}" method="post">
+            <p th:text="#{total} + ': ' + ${total} + '$'"></p>
+            <button class="btn btn-danger mr-2 float-right" name="clearPay" value="clear" th:text="#{clear}"></button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" th:text="#{pay}"></button>
+        </form>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{pay}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/pay'}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p th:text="#{fullname}"></p>
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                        <div class="form-group">
+                            <p>Card Number:</p>
+                            <input type="text" class="form-control" name="card">
+                        </div>
+                        <div class="ml-4 row">
+                            <div class="form-group mr-2">
+                                <p>Expiration (MM/YY)</p>
+                                <input type="text" class="form-control" name="exp">
+                            </div>
+                            <div class="form-group">
+                                <p>CVV</p>
+                                <input type="text" class="form-control" name="cvv">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" th:text="#{pay}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>

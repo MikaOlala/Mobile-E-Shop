@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/mainAdmin.html">
+<div layout:fragment = "site_content">
+
+<div class="row">
+    <h2 th:text="#{pictures}"></h2>
+    <button type="button" class="btn btn-info ml-auto my-auto" data-toggle="modal" data-target="#exampleModal" th:text="#{addPicture}"></button>
+</div>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" th:text="#{picture}"></th>
+            <th scope="col">URL</th>
+            <th scope="col" th:text="#{added}"></th>
+            <th scope="col" th:text="#{delete}"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="p : ${pictures}">
+            <th scope="row" th:text="${p.id}"></th>
+            <td><img th:src="@{'/viewPhoto/' + ${p.url}}" class="my-4 my-0 mx-auto" style="width: 50px; display: block;"></td>
+            <td th:text="${p.url}"></td>
+            <td th:text="${p.date}"></td>
+            <form th:action="@{'/deletePicture'}" method="post">
+                <input type="hidden" name="id" th:value="${p.id}">
+                <td width="10%"><button  class="btn btn-danger btn-sm text-center">-</button></td>
+            </form>
+        </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="#{addPicture}"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <form th:action="@{'/addPicture'}" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" name="url">
+                        <label class="custom-file-label" for="customFile" th:text="#{chooseFile}"></label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{close}"></button>
+                    <button class="btn btn-info" th:text="#{add}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="exampleModalLabel2" th:text="#{deleteTitle}"></h5>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                        <span aria-hidden="true">&times;</span>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <form th:action="@{'/deletePicture'}" method="post">-->
+<!--                    <div class="modal-body">-->
+<!--                        <p th:text="#{confirm}"></p>-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button class="btn btn-secondary" data-dismiss="modal" th:text="#{close}"></button>-->
+<!--                        <button class="btn btn-danger" th:text="#{delete}"></button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</div>
+</html>

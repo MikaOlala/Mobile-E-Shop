@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/guest.html">
+<div layout:fragment = "site_content">
+
+    <div class="col-9 offset-2">
+
+        <div class="row">
+            <div class="col-4">
+                <h6 class="text-center display-5 mt-4" th:text="#{welcome} + ', ' + ${currentUser.name}"></h6>
+                <img th:src="@{'/viewPhoto/' + ${currentUser.picture}}" class="my-4" style="width: 100px; border-radius: 100px; display: block; margin: 0 auto;">
+                <form th:action="@{'/avatar'}" method="post" enctype="multipart/form-data">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" name="ava">
+                        <label class="custom-file-label" for="customFile" th:text="#{chooseFile}"></label>
+                    </div>
+                    <button class="btn btn-info float-right btn-sm mt-2" th:text="#{uploadFile}"></button>
+                </form>
+            </div>
+
+
+            <div class="col-8 w-75">
+
+                <h6 class="mt-4 display-5" th:text="#{changeName}"></h6>
+                <form th:action="@{'/changeName'}" method="post">
+                    <div class="form-group">
+                        <p th:text="#{fullname} + ': '"></p>
+                        <input type="text" name="name" class="form-control" th:value="${currentUser.name}" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success ml-auto" th:text="#{change}"></button>
+                    </div>
+                </form>
+
+                <h6 class="mt-4 display-5" th:text="#{changePassword}"></h6>
+                <form th:action="@{'/changePassword'}" method="post">
+                    <div class="form-group">
+                        <p th:text="#{oldPassword} + ': '"></p>
+                        <input type="password" name="old" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{newPassword} + ': '"></p>
+                        <input type="password" name="nw" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <p th:text="#{reNew} + ': '"></p>
+                        <input type="password" name="reNew" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success ml-auto" th:text="#{change}"></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

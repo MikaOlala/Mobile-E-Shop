@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org" xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout" layout:decorator = "layout/main.html">
+<div layout:fragment = "site_content">
+
+    <div class="card">
+        <img th:src="${item.pictureL}" class="card-img-top w-100">
+        <div class="card-body">
+            <h5 class="card-title text-info" th:text = "${item.name}"></h5>
+            <p class="card-text font-weight-bold">$[[${item.price}]]</p>
+            <p class="card-text" th:text="${item.description}"></p>
+            <p class="card-text" th:text="#{added} + ': ' + ${item.added}">Added: [[${item.added}]]</p>
+            <p class="card-text" th:text="#{brand} + ${': ' + item.brand.country.name + ', ' + item.brand.name}"></p>
+
+            <div class="row justify-content-center">
+                <div class="card m-3" style="width: 200px" th:each = "p : ${pictures}">
+                    <img class="card-img-top" th:src="@{'/viewPhoto/' + ${p.url}}" alt="Card image cap">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <p class="card-text" th:text="${item.stars}">/5</p>
+        </div>
+    </div>
+
+    <form th:action="@{'/basket'}" method="post">
+        <input type="hidden" name="id" th:value="${item.id}">
+        <button class="btn btn-info float-right my-4" th:text="#{addToBasket}"></button>
+    </form>
+
+    <form th:action="@{'/addComment'}" method="post" class="mt-5">
+        <div class="form-group" id="commentArea">
+            <input type="hidden" name="id" th:value="${item.id}">
+            <textarea class="form-control" name="comment" th:placeholder="#{writeComment}" rows="3"></textarea>
+        </div>
+        <button class="btn btn-info float-right my-2" th:text="#{send}"></button>
+    </form>
+
+    <div class="card w-100" th:each="c : ${comments}">
+        <div class="card-body">
+            <div class="m-2">
+                <div class="row">
+                    <h5 class="card-title mr-auto" th:text="${c.user.name}"></h5>
+                    <p class="ml-auto text-secondary" th:text="${c.added}"></p>
+                </div>
+                <div class="row">
+                    <p class="card-text" th:text="${c.comment}"></p>
+                        <div class="ml-auto row" th:if="${currentUser!=null}">
+                            <button class="btn btn-sm btn-info mr-1" data-toggle="modal" data-target="#edit" th:onclick="edit([[${c.id}]], [[${c.comment}]]);" th:if="${currentUser.getId()==c.user.id}">✎</button>
+                            <form th:action="@{'/deleteComment'}" method="post" class="p-0">
+                                <input type="hidden" name="commentId" th:value="${c.id}">
+                                <button class="btn btn-sm btn-danger mr-2 px-2" style="height: 100%" th:if="${currentUser.getId()==c.user.id || isModerator}">x</button>
+                            </form>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{'/editComment'}" method="post">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="id" value="">
+                        <div class="form-group">
+                            <p>Comment: </p>
+                            <input type="text" class="form-control" name="commentString" id="commentString" value="">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{close}"></button>
+                        <button class="btn btn-info" th:text="#{edit}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function edit(id, commentString){
+            document.getElementById("commentString").value = commentString;
+            document.getElementById("id").value = id;
+        }
+    </script>
+
+</div>
+</html>
