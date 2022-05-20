@@ -1,6 +1,6 @@
 # Mobile-E-Shop
 <h2>My semester task - internet shop with Spring Boot</h2>
-
+<p>❗ The design of this site was made according to the idea of my teacher</p>
 
 **This site has**
 <p>✅ Registration and Authorization</p>
